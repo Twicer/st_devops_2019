@@ -16,13 +16,15 @@ Get-Alias
 # 8.	Создайте свой псевдоним для любого командлета
 New-Alias date Get-Date
 # 9.	Просмотреть список методов и свойств объекта типа процесс
-Get-Process wininit | Get-Member
+Get-Process wininit | Get-Member -MemberType Property, Method
 # 10.	Просмотреть список методов и свойств объекта типа строка
-"Some String" | Get-Member
+"Some String" | Get-Member -MemberType Property, Method
 # 11.	Получить список запущенных процессов, данные об определённом процессе
 Get-Process
+Get-Process wininit
 # 12.	Получить список всех сервисов, данные об определённом сервисе
 Get-Service
+Get-Service WinRM
 # 13.	Получить список обновлений системы
 Get-WmiObject -class win32_quickfixengineering
 # 14.	Узнайте, какой язык установлен для UI Windows
@@ -38,5 +40,22 @@ $Word = New-Object -ComObject Word.Application
 $Word.Visible = $true
 $Word.Documents.Open('D:\wordfile.docx')
 $Word.Documents.Close()
-# 19.	Подсчитать значение выражения S= . N – изменяемый параметр. Каждый шаг выводить в виде строки. (Пример: На шаге 2 сумма S равна 9)
+# 19.	Подсчитать значение выражения S. N – изменяемый параметр. Каждый шаг выводить в виде строки. (Пример: На шаге 2 сумма S равна 9)
+$i=1; $S=0
+Do {
+    $S = $S + ($i*3)
+    Write-Host "На шаге $i сумма S равна $S"
+    $i++
+    }
+While ($i -le 5)
 # 20.	Напишите функцию для предыдущего задания. Запустите её на выполнение.
+function S([int32]$n){
+    $i=1; $S=0
+    Do {
+        $S = $S + ($i*3)
+        Write-Host "На шаге $i сумма S равна $S"
+        $i++
+    }
+    While ($i -le $n)
+}
+S(5)

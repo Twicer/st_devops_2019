@@ -22,7 +22,8 @@ Get-Content M2T2:\Running_Serices.txt | Write-Host
 
 #5.	Просуммировать все числовые значения переменных текущего сеанса.
 
-
+$a=0
+Get-Variable | ForEach-Object {if (($_.Name -ne "null") -and ($_.Value.GetType() -eq [int])){$a+=$_.Value} else{}}
 
 #6.	Вывести список из 6 процессов занимающих дольше всего процессор.
 

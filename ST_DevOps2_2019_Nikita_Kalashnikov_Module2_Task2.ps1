@@ -27,7 +27,7 @@ Get-Variable | ForEach-Object {if (($_.Name -ne "null") -and ($_.Value.GetType()
 
 #6.	Вывести список из 6 процессов занимающих дольше всего процессор.
 
-Get-Process | Sort-Object -Property CPU -Descending | Select-Object -First 10
+Get-Process | Sort-Object -Property CPU -Descending | Select-Object -First 6
 
 #7.	Вывести список названий и занятую виртуальную память (в Mb) каждого процесса, разделённые знаком тире, при этом если процесс занимает более 100Mb – выводить информацию красным цветом, иначе зелёным.
 

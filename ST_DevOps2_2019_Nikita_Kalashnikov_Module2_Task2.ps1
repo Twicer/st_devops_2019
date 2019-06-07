@@ -37,7 +37,7 @@ Format-List} else {Write-Host (("{0:N2}" -f $($_.VM/1Mb)), $_.Name) -Separator "
 
 #8.	Подсчитать размер занимаемый файлами в папке C:\windows (и во всех подпапках) за исключением файлов *.tmp
 
-$a=0
+$a=0;
 Get-ChildItem -path C:\ -Recurse -Exclude *.tmp -File | ForEach-Object {$a+=$_.Length}
 
 #9.	Сохранить в CSV-файле информацию о записях одной ветви реестра HKLM:\SOFTWARE\Microsoft.

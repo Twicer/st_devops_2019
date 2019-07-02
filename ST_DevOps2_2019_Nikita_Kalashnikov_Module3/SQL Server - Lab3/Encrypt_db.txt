@@ -1,0 +1,57 @@
+-- Creating a DMK in the master DB
+USE master;
+CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'Pa$$w0rd';
+-- Creating a Certificate in the master DB
+CREATE CERTIFICATE Security_Certificate WITH SUBJECT = 'DEK_Certificate';
+-- Backing up a Certificate and its Private Key
+BACKUP CERTIFICATE Security_Certificate TO FILE = 'C:\Temp\security_certificate.cer'
+WITH PRIVATE KEY
+(FILE = 'C:\Temp\security_certificate.key' ,
+ENCRYPTION BY PASSWORD = 'CertPa$$w0rd');
+-- Creating a Database Encryption Key
+USE user_db;
+CREATE DATABASE ENCRYPTION KEY
+WITH ALGORITHM = AES_128
+ENCRYPTION BY SERVER CERTIFICATE Security_Certificate;
+-- Enabling Encryption for a Database
+ALTER DATABASE user_db
+SET ENCRYPTION ON;
+-- Querying sys.database to Determine Encryption Status
+USE master;
+SELECT name, is_encrypted FROM sys.databases;
+
+=====================
+
+-- Creating a DMK in the master DB
+USE master;
+CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'Pa$$w0rd';
+
+BACKUP MASTER KEY
+TO FILE = 'C:\Temp\MASTER_KEY.key'
+ENCRYPTION BY PASSWORD = 'BACKUP_Pa$$w0rd';
+GO
+
+-- Creating a Certificate in the master DB
+CREATE CERTIFICATE Security_Certificate WITH SUBJECT = 'DEK_Certificate';
+
+-- Backing up a Certificate and its Private Key
+BACKUP CERTIFICATE Security_Certificate TO FILE = 'C:\Temp\security_certificate.cer'
+WITH PRIVATE KEY
+(FILE = 'C:\Temp\security_certificate.key' ,
+ENCRYPTION BY PASSWORD = 'CertPa$$w0rd');
+
+BACKUP DATABASE user_db
+TO DISK = 'C:\Temp\Backup\user_db_FULLEncrtypted.bak'
+WITH COMPRESSION, STATS = 10, ENCRYPTION (ALGORITHM = AES_128,SERVER CERTIFICATE = Security_Certificate)
+
+-- Creating a Database Encryption Key
+USE user_db;
+CREATE DATABASE ENCRYPTION KEY
+WITH ALGORITHM = AES_128
+ENCRYPTION BY SERVER CERTIFICATE Security_Certificate;
+
+-- Enabling Encryption for a Database
+ALTER DATABASE user_db
+SET ENCRYPTION ON;
+
+
